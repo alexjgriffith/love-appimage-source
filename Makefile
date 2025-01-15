@@ -11,9 +11,9 @@ CMAKE_VERSION := 3.27.7
 CMAKE_URL := https://github.com/Kitware/CMake/releases/download/v$(CMAKE_VERSION)/cmake-$(CMAKE_VERSION)-linux-$(shell uname -m).sh
 
 # Project branches (for git-based projects)
-LOVE_BRANCH := main
+LOVE_BRANCH := 11.5-lua5.4
 SDL2_BRANCH := release-2.28.5
-LUAJIT_BRANCH := v2.1
+## LUAJIT_BRANCH := v2.1
 OPENAL_BRANCH := 1.23.1
 BROTLI_BRANCH := v1.0.9
 ZLIB_BRANCH := v1.3
@@ -27,6 +27,7 @@ FT_VERSION := 2.13.2
 BZIP2_VERSION := 1.0.8
 MPG123_VERSION := 1.31.3
 LIBMODPLUG_VERSION := 0.8.8.5
+LUA_VERSION := 5.4.7
 
 # Output AppImage
 APPIMAGE_OUTPUT := love-$(LOVE_BRANCH).AppImage
@@ -278,15 +279,27 @@ installdir/lib/libluajit-5.1.so: $(LUAJIT_PATH)/Makefile
 	cd $(LUAJIT_PATH) && make install PREFIX=$(INSTALLPREFIX)
 	cd $(LUAJIT_PATH) && make clean
 
+
+# Lua
+override LUA_PATH := lua-$(LUA_VERSION)
+
+$(LUA_PATH).tar.gz:
+	curl $(CURL_DOH_URL) -Lfo $(LUA_PATH).tar.gz https://www.lua.org/ftp/$(LUA_PATH).tar.gz
+
+installdir/lib/liblua.a:
+	mkdir -p $(LUA_PATH)/build
+	cd $(LUA_PATH)/build && $(MAKE) install -j$(NUMBER_OF_PROCESSORS)
+
+
 # LOVE
 override LOVE_PATH := love2d-$(LOVE_BRANCH)
 
 $(LOVE_PATH)/CMakeLists.txt:
-	git clone --depth 1 -b $(LOVE_BRANCH) https://github.com/love2d/love $(LOVE_PATH)
+	git clone --depth 1 -b $(LOVE_BRANCH) https://github.com/alexjgriffith/love $(LOVE_PATH)
 
-$(LOVE_PATH)/configure: $(LOVE_PATH)/CMakeLists.txt installdir/lib/libluajit-5.1.so installdir/lib/libmodplug.so installdir/lib/libmpg123.so installdir/lib/libfreetype.so installdir/lib/libopenal.so installdir/lib/libz.so installdir/lib/libtheora.so installdir/lib/libvorbis.so installdir/lib/libogg.so installdir/lib/libSDL2.so
+$(LOVE_PATH)/configure: $(LOVE_PATH)/CMakeLists.txt installdir/lib/libluajit-5.1.so installdir/lib/libmodplug.so installdir/lib/libmpg123.so installdir/lib/libfreetype.so installdir/lib/libopenal.so installdir/lib/libz.so installdir/lib/libtheora.so installdir/lib/libvorbis.so installdir/lib/libogg.so installdir/lib/libSDL2.so installdir/lib/liblua.a
 	cd $(LOVE_PATH) && bash platform/unix/genmodules
-	cp $(LOVE_PATH)/platform/unix/configure.ac $(LOVE_PATH) && cp $(LOVE_PATH)/platform/unix/Makefile.am $(LOVE_PATH)
+	cp $(LOVE_PATH)/platform/unix/configure.ac $(LOVE_PATH) --with-lua=lua --with-luaversion=5.4 && cp $(LOVE_PATH)/platform/unix/Makefile.am $(LOVE_PATH)
 	cd $(LOVE_PATH) && autoheader
 	cd $(LOVE_PATH) && libtoolize --force
 	cd $(LOVE_PATH) && aclocal -I $(INSTALLPREFIX)/share/aclocal
@@ -355,7 +368,7 @@ else
 	cd squashfs-root/usr/lib && ../../AppRun ../../../installdir2 ../../../$(APPIMAGE_OUTPUT)
 endif
 
-getdeps: $(CMAKE) appimagetool $(SDL2_PATH)/configure $(LIBOGG_FILE).tar.gz $(LIBVORBIS_FILE).tar.gz $(LIBTHEORA_FILE).tar.gz $(ZLIB_PATH)/configure $(LIBPNG_FILE).tar.gz $(BROTLI_PATH)/CMakeLists.txt $(BZIP2_FILE).tar.gz $(FT_FILE).tar.gz $(MPG123_FILE).tar.bz2 $(LIBMODPLUG_FILE).tar.gz $(LUAJIT_PATH)/Makefile $(LOVE_PATH)/CMakeLists.txt
+getdeps: $(CMAKE) appimagetool $(SDL2_PATH)/configure $(LIBOGG_FILE).tar.gz $(LIBVORBIS_FILE).tar.gz $(LIBTHEORA_FILE).tar.gz $(ZLIB_PATH)/configure $(LIBPNG_FILE).tar.gz $(BROTLI_PATH)/CMakeLists.txt $(BZIP2_FILE).tar.gz $(FT_FILE).tar.gz $(MPG123_FILE).tar.bz2 $(LIBMODPLUG_FILE).tar.gz $(LUAJIT_PATH)/Makefile $(LUA_PATH)/Makefile $(LOVE_PATH)/CMakeLists.txt
 
 AppImage: $(APPIMAGE_OUTPUT)
 

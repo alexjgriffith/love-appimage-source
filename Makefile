@@ -315,7 +315,7 @@ $(LOVE_PATH)/configure: $(LOVE_PATH)/CMakeLists.txt installdir/lib/libluajit-5.1
 
 $(LOVE_PATH)/build/Makefile: $(LOVE_PATH)/configure
 	mkdir -p $(LOVE_PATH)/build
-	cat ../configure
+	cd $(LOVE_PATH)/build && cat ../configure
 	ls $(INSTALLPREFIX)
 	cd $(LOVE_PATH)/build && CFLAGS="-I$(INSTALLPREFIX)/include" PKG_CONFIG_PATH=$(INSTALLPREFIX)/lib/pkgconfig LDFLAGS="-Wl,-rpath,'\$$\$$ORIGIN/../lib' -L$(INSTALLPREFIX)/lib" ../configure --prefix=$(INSTALLPREFIX) --with-lua=lua --with-luaversion=5.4
 

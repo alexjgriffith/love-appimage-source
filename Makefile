@@ -304,7 +304,9 @@ $(LOVE_PATH)/CMakeLists.txt:
 
 $(LOVE_PATH)/configure: $(LOVE_PATH)/CMakeLists.txt installdir/lib/libluajit-5.1.so installdir/lib/libmodplug.so installdir/lib/libmpg123.so installdir/lib/libfreetype.so installdir/lib/libopenal.so installdir/lib/libz.so installdir/lib/libtheora.so installdir/lib/libvorbis.so installdir/lib/libogg.so installdir/lib/libSDL2.so installdir/lib/liblua.a
 	cd $(LOVE_PATH) && bash platform/unix/genmodules
-	cp $(LOVE_PATH)/platform/unix/configure.ac $(LOVE_PATH) --with-lua=lua --with-luaversion=5.4 && cp $(LOVE_PATH)/platform/unix/Makefile.am $(LOVE_PATH)
+	## not sure where to put --with-lua=lua --with-luaversion=5.4
+	## manually set in configure.ac for now
+	cp $(LOVE_PATH)/platform/unix/configure.ac $(LOVE_PATH) && cp $(LOVE_PATH)/platform/unix/Makefile.am $(LOVE_PATH)
 	cd $(LOVE_PATH) && autoheader
 	cd $(LOVE_PATH) && libtoolize --force
 	cd $(LOVE_PATH) && aclocal -I $(INSTALLPREFIX)/share/aclocal

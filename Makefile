@@ -291,8 +291,8 @@ $(LUA_PATH)/Makefile: $(LUA_PATH).tar.gz
 	touch $(LUA_PATH)/Makefile
 
 installdir/lib/liblua.a:
-	mkdir -p $(LUA_PATH)/build
-	cd $(LUA_PATH)/build && $(MAKE) install -j$(NUMBER_OF_PROCESSORS)
+	mkdir -p $(LUA_PATH)
+	cd $(LUA_PATH) && $(MAKE) install -j$(NUMBER_OF_PROCESSORS)
 
 
 # LOVE

@@ -286,7 +286,7 @@ override LUA_PATH := lua-$(LUA_VERSION)
 $(LUA_PATH).tar.gz:
 	curl $(CURL_DOH_URL) -Lfo $(LUA_PATH).tar.gz https://www.lua.org/ftp/$(LUA_PATH).tar.gz
 
-$(LIBOGG_FILE)/Makefile: $(LUA_PATH).tar.gz
+$(LUA_PATH)/Makefile: $(LUA_PATH).tar.gz
 	tar xzf $(LUA_PATH).tar.gz
 	touch $(LUA_PATH)/Makefile
 
@@ -372,7 +372,7 @@ else
 	cd squashfs-root/usr/lib && ../../AppRun ../../../installdir2 ../../../$(APPIMAGE_OUTPUT)
 endif
 
-getdeps: $(CMAKE) appimagetool $(SDL2_PATH)/configure $(LIBOGG_FILE).tar.gz $(LIBVORBIS_FILE).tar.gz $(LIBTHEORA_FILE).tar.gz $(ZLIB_PATH)/configure $(LIBPNG_FILE).tar.gz $(BROTLI_PATH)/CMakeLists.txt $(BZIP2_FILE).tar.gz $(FT_FILE).tar.gz $(MPG123_FILE).tar.bz2 $(LIBMODPLUG_FILE).tar.gz $(LUAJIT_PATH)/Makefile $(LUA_PATH)/configure $(LOVE_PATH)/CMakeLists.txt
+getdeps: $(CMAKE) appimagetool $(SDL2_PATH)/configure $(LIBOGG_FILE).tar.gz $(LIBVORBIS_FILE).tar.gz $(LIBTHEORA_FILE).tar.gz $(ZLIB_PATH)/configure $(LIBPNG_FILE).tar.gz $(BROTLI_PATH)/CMakeLists.txt $(BZIP2_FILE).tar.gz $(FT_FILE).tar.gz $(MPG123_FILE).tar.bz2 $(LIBMODPLUG_FILE).tar.gz $(LUAJIT_PATH)/Makefile $(LUA_PATH)/Makefile $(LOVE_PATH)/CMakeLists.txt
 
 AppImage: $(APPIMAGE_OUTPUT)
 

@@ -321,7 +321,7 @@ $(LOVE_PATH)/build/Makefile: $(LOVE_PATH)/configure
 	mkdir -p $(LOVE_PATH)/build
 	cd $(LOVE_PATH)/build && cat ../configure
 	ls $(INSTALLPREFIX)
-	cd $(LOVE_PATH)/build && CFLAGS="-I$(INSTALLPREFIX)/include" PKG_CONFIG_PATH=$(INSTALLPREFIX)/lib/pkgconfig LDFLAGS="-Wl,-rpath,'\$$\$$ORIGIN/../lib' -L$(INSTALLPREFIX)/lib" ../configure --prefix=$(INSTALLPREFIX) --with-lua=lua --with-luaversion=5.4
+	cd $(LOVE_PATH)/build && CFLAGS="-I$(INSTALLPREFIX)/include" PKG_CONFIG_PATH=$(INSTALLPREFIX)/lib/pkgconfig LDFLAGS="-Wl,-rpath,'\$$\$$ORIGIN/../lib' -L$(INSTALLPREFIX)/lib" lua_CFLAGS="-I$(INSTALLPREFIX)/include" lua_LIBS="-L$(INSTALLPREFIX)/lib" ../configure --prefix=$(INSTALLPREFIX) --with-lua=lua --with-luaversion=5.4
 
 installdir/bin/love: $(LOVE_PATH)/build/Makefile
 	cd $(LOVE_PATH)/build && $(MAKE) install -j$(NUMBER_OF_PROCESSORS)

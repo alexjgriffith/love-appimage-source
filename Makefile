@@ -13,7 +13,7 @@ CMAKE_URL := https://github.com/Kitware/CMake/releases/download/v$(CMAKE_VERSION
 # Project branches (for git-based projects)
 LOVE_BRANCH := 11.5-lua5.4
 SDL2_BRANCH := release-2.28.5
-## LUAJIT_BRANCH := v2.1
+LUAJIT_BRANCH := v2.1
 OPENAL_BRANCH := 1.23.1
 BROTLI_BRANCH := v1.0.9
 ZLIB_BRANCH := v1.3

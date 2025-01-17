@@ -292,7 +292,8 @@ $(LUA_PATH)/Makefile: $(LUA_PATH).tar.gz
 
 installdir/lib/liblua.a:
 	mkdir -p $(LUA_PATH)
-	cd $(LUA_PATH) && $(MAKE) install -j$(NUMBER_OF_PROCESSORS)
+	cd $(LUA_PATH) && $(MAKE) -j$(NUMBER_OF_PROCESSORS)
+	cd $(LUA_PATH) && $(MAKE) install INSTALL_TOP=$(INSTALLPREFIX)
 
 
 # LOVE

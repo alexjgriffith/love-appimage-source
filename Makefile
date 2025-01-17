@@ -294,7 +294,10 @@ installdir/lib/liblua.a:
 	mkdir -p $(LUA_PATH)
 	cd $(LUA_PATH) && $(MAKE) -j$(NUMBER_OF_PROCESSORS)
 	cd $(LUA_PATH) && $(MAKE) install INSTALL_TOP=$(INSTALLPREFIX)
-
+	ls $(INSTALLPREFIX)/bin/
+	ls $(INSTALLPREFIX)/lib/
+	ls $(INSTALLPREFIX)/include/
+	ls $(INSTALLPREFIX)/lib/lua/5.4/
 
 # LOVE
 override LOVE_PATH := love2d-$(LOVE_BRANCH)
